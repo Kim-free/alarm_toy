@@ -3,7 +3,6 @@ package com.example.toy_alarm.appUser.dto.res;
 import com.example.toy_alarm.appUser.entity.AppUser;
 import com.example.toy_alarm.auth.domain.LoginUser;
 import lombok.*;
-import org.apache.catalina.User;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
 @Getter @Setter
@@ -17,7 +16,7 @@ public class MeDto {
 
         return MeDto.builder()
                 .userId(user.getId())
-                .nickname()
+                .nickname(user.getNickname())
                 .profileCompleted(profileCompleted)
                 .build();
     }

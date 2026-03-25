@@ -3,19 +3,18 @@ package com.example.toy_alarm.auth.service;
 import com.example.toy_alarm.appUser.entity.AppUser;
 import com.example.toy_alarm.appUser.service.AppUserService;
 import com.example.toy_alarm.auth.infrastructure.JwtProvider;
-import com.example.toy_alarm.auth.domain.AppleOauthProperties;
 import com.example.toy_alarm.auth.dto.res.AppleTokenResponse;
 import com.example.toy_alarm.auth.dto.res.AppleUserInfo;
 import com.example.toy_alarm.auth.dto.res.LoginResponseDto;
 import com.example.toy_alarm.auth.infrastructure.AppleOauthClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
 public class AppleOauthService {
     private final AppleOauthClient appleOauthClient;
     private final AppUserService appUserService;

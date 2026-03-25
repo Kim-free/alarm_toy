@@ -38,7 +38,7 @@ public class Membership {
         return Membership.builder()
                 .appUser(appUser)
                 .plan(plan)
-                .status(Status.READY)
+                .status(Status.ABSENCE)
                 .isLeader(isLeader)
                 .defaultMassage(defaultMassage)
                 .build();

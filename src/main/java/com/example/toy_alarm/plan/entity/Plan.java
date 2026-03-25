@@ -35,6 +35,7 @@ public class Plan {
             joinColumns = @JoinColumn(name = "plan_id")
     )
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Set<DayOfWeek> repeatDays = new HashSet<>();
 
     public static Plan toEntity(CreatePlanDto createPlanDto, String planCode){

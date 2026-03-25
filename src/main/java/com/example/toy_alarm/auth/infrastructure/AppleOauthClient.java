@@ -11,14 +11,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +32,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Component
+@ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
 public class AppleOauthClient {
     private final WebClient webClient;
     private final AppleOauthProperties properties;

@@ -12,5 +12,5 @@ public class CreatePlanDto {
     private String planName;
     private Set<DayOfWeek> repeatDays;
     private int maxSnooze;
-    private String defaultMassage;
+    private String defaultMessage;
 }

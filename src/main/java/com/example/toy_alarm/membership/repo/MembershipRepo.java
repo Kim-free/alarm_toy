@@ -10,11 +10,7 @@ import java.util.Optional;
 
 public interface MembershipRepo extends JpaRepository<Membership, Long> {
 
-    void findByPlanCode(String planCode);
-
     List<Membership> findAllByAppUserId(Long appUserId);
-
-    Optional<Membership> findByPlanId(Long planId);
 
     @Query("select m from Membership m join fetch m.appUser where m.plan.id = :planId")
     List<Membership> findAllByPlanId(Long planId);

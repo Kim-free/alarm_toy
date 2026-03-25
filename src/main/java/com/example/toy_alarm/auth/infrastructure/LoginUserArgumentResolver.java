@@ -16,7 +16,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(Login.class)
-                && parameter.getParameterType().equals(Long.class);
+                && parameter.getParameterType().equals(LoginUser.class);
     }
 
     @Override

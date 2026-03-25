@@ -1,6 +1,5 @@
 package com.example.toy_alarm.plan.service;
 
-import com.example.toy_alarm.appUser.entity.AppUser;
 import com.example.toy_alarm.appUser.repo.AppUserRepo;
 import com.example.toy_alarm.auth.domain.LoginUser;
 import com.example.toy_alarm.membership.entity.Membership;
@@ -13,10 +12,8 @@ import com.example.toy_alarm.plan.entity.Plan;
 import com.example.toy_alarm.plan.repo.PlanRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -30,7 +27,7 @@ public class PlanService {
     public AfterCreatePlanDto create(CreatePlanDto createPlanDto, Long appUserId){
         Plan plan = planRepo.save(Plan.toEntity(createPlanDto, generateUniqueCode()));
 
-        Membership membership = membershipService.createOwner(appUserId, plan.getId(), createPlanDto.getDefaultMassage());
+        Membership membership = membershipService.createOwner(appUserId, plan.getId(), createPlanDto.getDefaultMessage());
 
         return AfterCreatePlanDto.toDto(plan.getId(), membership.getId());
     }
@@ -65,11 +62,15 @@ public class PlanService {
         return ResponseEditScreenDto.toDto(membership.getPlan(), membership, sortedMemberships);
     }
 
-    public PlansDto readPlans(LoginUser loginUser) {
+    public PlanListDtos readPlans(LoginUser loginUser) {
         List<Long> planIds = membershipRepo.findAllByAppUserId(loginUser.getId()).stream()
                 .map(membership -> membership.getPlan().getId()).toList();
 
-        return PlansDto.toDto(planIds);
+        List<Plan> plans = planIds.stream().map(planId -> planRepo.findById(planId).orElseThrow(
+                () -> new RuntimeException("membership을 찾지 못햇습니다."))).toList();
+
+
+        return PlanListDtos.toDto(plans);
     }
 
     public MemberStatusDtos readMemberStatus(Long membershipId) {

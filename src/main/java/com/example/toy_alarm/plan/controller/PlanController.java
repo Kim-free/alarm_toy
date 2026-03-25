@@ -6,6 +6,7 @@ import com.example.toy_alarm.plan.dto.req.CreatePlanDto;
 import com.example.toy_alarm.plan.dto.req.UpdatePlanDto;
 import com.example.toy_alarm.plan.dto.res.*;
 import com.example.toy_alarm.plan.service.PlanService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<AfterCreatePlanDto> create(@Login LoginUser loginUser, @RequestBody CreatePlanDto createPlanDto){
+    public ResponseEntity<AfterCreatePlanDto> create(@Parameter(hidden = true) @Login LoginUser loginUser, @RequestBody CreatePlanDto createPlanDto){
         AfterCreatePlanDto response = planService.create(createPlanDto, loginUser.getId());
         return ResponseEntity.ok(response);
     }
@@ -40,8 +41,8 @@ public class PlanController {
 //    }
 
     @GetMapping("/list")
-    public ResponseEntity<PlansDto> readPlans(@Login LoginUser loginUser){
-        PlansDto response = planService.readPlans(loginUser);
+    public ResponseEntity<PlanListDtos> readPlans(@Parameter(hidden = true) @Login LoginUser loginUser){
+        PlanListDtos response = planService.readPlans(loginUser);
         return ResponseEntity.ok(response);
     }
 

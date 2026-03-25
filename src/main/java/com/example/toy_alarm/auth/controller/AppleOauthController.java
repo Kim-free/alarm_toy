@@ -5,6 +5,7 @@ import com.example.toy_alarm.auth.infrastructure.AppleOauthClient;
 import com.example.toy_alarm.auth.service.AppleOauthService;
 import com.example.toy_alarm.auth.service.AppleOauthStateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -16,6 +17,7 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/apple")
+@ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
 public class AppleOauthController {
     private final AppleOauthService appleOauthService;
     private final AppleOauthStateService appleOauthStateService;
