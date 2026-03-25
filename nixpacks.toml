@@ -2,7 +2,10 @@
 nixPkgs = ["jdk17"]
 
 [phases.build]
-cmds = ["./gradlew clean build -x check -x test -Pproduction"]
+cmds = [
+    "rm -f build/libs/*-plain.jar",
+    "./gradlew clean bootJar -x test"
+]
 
 [start]
-cmd = "java -jar build/libs/*SNAPSHOT.jar"
+cmd = "java -jar $(find build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-plain.jar' | head -n 1)"
