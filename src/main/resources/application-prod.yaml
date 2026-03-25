@@ -24,12 +24,12 @@ spring:
       max-request-size: 10MB
 
 oauth2:
-  client-id: ${oauth2.client-id}
-  team-id: ${oauth2.team-id}
-  key-id: ${oauth2.key-id}
-  private-key-path: ${oauth2.private-key-path}
-  redirect-uri: ${oauth2.redirect-uri}
-  authorize-uri: ${oauth2.authorize-uri}
+  client-id: ${OAUTH2_CLIENT_ID}
+  team-id: ${OAUTH2_TEAM_ID}
+  key-id: ${OAUTH2_KEY_ID}
+  private-key-path: ${OAUTH2_PRIVATE_KEY_PATH}
+  redirect-uri: ${OAUTH2_REDIRECT_URI}
+  authorize-uri: ${OAUTH2_AUTHORIZE_URI}
   scope:
     - name
     - email
@@ -43,8 +43,8 @@ oauth2:
 
 
 jwt:
-  secret: ${jwt.secret}
-  access-token-expiration: ${jwt.access-token-expiration}
+  secret: ${JWT_SECRET}
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
 
 apple:
   enabled : false
