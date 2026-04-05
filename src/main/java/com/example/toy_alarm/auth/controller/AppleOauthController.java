@@ -4,6 +4,7 @@ import com.example.toy_alarm.auth.dto.res.LoginResponseDto;
 import com.example.toy_alarm.auth.infrastructure.AppleOauthClient;
 import com.example.toy_alarm.auth.service.AppleOauthService;
 import com.example.toy_alarm.auth.service.AppleOauthStateService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +38,7 @@ public class AppleOauthController {
                 .build();
     }
 
+    @Hidden
     @PostMapping("/callback")
     public ResponseEntity<LoginResponseDto> callback(
             @RequestParam("code") String code,
