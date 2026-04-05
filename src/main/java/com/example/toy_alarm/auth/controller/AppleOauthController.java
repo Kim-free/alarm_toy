@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,21 +46,12 @@ public class AppleOauthController {
         LoginResponseDto response = appleOauthService.login(code);
 
         String accessToken = response.getAccessToken();
-
-        // 3. 쿠키 생성
-        ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
-                .httpOnly(true)        // JS 접근 불가 (보안)
-                .secure(false)         // HTTPS면 true (배포 시)
-                .path("/")             // 모든 경로에서 사용
-                .maxAge(60 * 60)       // 1시간
-                .sameSite("Lax")       // CSRF 완화
-                .build();
+        String encodedToken = URLEncoder.encode(accessToken, StandardCharsets.UTF_8);
 
         // 4. 프론트로 리다이렉트
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .location(URI.create("http:front.com"))
+                .location(URI.create("ilarm://login/callback?token=" + encodedToken))
                 .build();
     }
 }
