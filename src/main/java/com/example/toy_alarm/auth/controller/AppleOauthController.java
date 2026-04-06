@@ -6,6 +6,7 @@ import com.example.toy_alarm.auth.service.AppleOauthService;
 import com.example.toy_alarm.auth.service.AppleOauthStateService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 @RequestMapping("/auth/apple")
 @ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
+@Slf4j
 public class AppleOauthController {
     private final AppleOauthService appleOauthService;
     private final AppleOauthStateService appleOauthStateService;
@@ -44,6 +46,10 @@ public class AppleOauthController {
             @RequestParam("code") String code,
             @RequestParam("state") String state
     ) {
+        log.info("state in callback = {}\n", state);
+        log.info("code in callback = {}\n", code);
+
+
         appleOauthStateService.validateState(state);
         LoginResponseDto response = appleOauthService.login(code);
 

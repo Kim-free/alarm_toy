@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Component
 @ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
+@Slf4j
 public class AppleOauthClient {
     private final WebClient webClient;
     private final AppleOauthProperties properties;

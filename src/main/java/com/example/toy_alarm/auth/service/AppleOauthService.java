@@ -2,12 +2,14 @@ package com.example.toy_alarm.auth.service;
 
 import com.example.toy_alarm.appUser.entity.AppUser;
 import com.example.toy_alarm.appUser.service.AppUserService;
+import com.example.toy_alarm.auth.infrastructure.JsonUtil;
 import com.example.toy_alarm.auth.infrastructure.JwtProvider;
 import com.example.toy_alarm.auth.dto.res.AppleTokenResponse;
 import com.example.toy_alarm.auth.dto.res.AppleUserInfo;
 import com.example.toy_alarm.auth.dto.res.LoginResponseDto;
 import com.example.toy_alarm.auth.infrastructure.AppleOauthClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "apple.enabled", havingValue = "true")
+@Slf4j
 public class AppleOauthService {
     private final AppleOauthClient appleOauthClient;
     private final AppUserService appUserService;
@@ -24,8 +27,12 @@ public class AppleOauthService {
         // 1. token 요청
         AppleTokenResponse tokenResponse = appleOauthClient.requestToken(code);
 
+        log.info("1. tokenResponse = {}", JsonUtil.toPrettyJson(tokenResponse));
+
         // 2. id_token 파싱
         AppleUserInfo userInfo = appleOauthClient.parseIdToken(tokenResponse.getIdToken());
+
+        log.info("2. id_token parsing = {}", JsonUtil.toPrettyJson(userInfo));
 
         // 3. id_token 검증
         appleOauthClient.validateIdToken(tokenResponse.getIdToken());
@@ -35,6 +42,8 @@ public class AppleOauthService {
 
         // 5. JWT 발급
         String accessToken = jwtProvider.createAccessToken(user.getId());
+
+        log.info("5. jwt 발급 : {}", accessToken);
 
         boolean profileCompleted = user.getNickname() != null && !user.getNickname().isBlank();
         // 6. 응답
